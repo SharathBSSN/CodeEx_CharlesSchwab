@@ -1,0 +1,4 @@
+Flask[async]==2.3.2
+networkx==3.1
+matplotlib==3.7.1
+pytest==7.4.0
