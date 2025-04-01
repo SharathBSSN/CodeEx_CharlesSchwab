@@ -172,3 +172,9 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Flask visualization folder
+visualize_dag/
+
+# Health check results folder
+health_results/

@@ -1,0 +1,56 @@
+Test valid DAG
+curl -X POST -H "Content-Type: application/json" -d '{
+    "Step1": ["Step2"],
+    "Step2": ["Step3"],
+    "Step3": []
+}' http://127.0.0.1:5000/health
+
+Test complex DAG
+curl -X POST -H "Content-Type: application/json" -d '{
+    "A": ["B", "C"],
+    "B": ["D"],
+    "C": ["E"],
+    "D": ["F"],
+    "E": ["F"],
+    "F": []
+}' http://127.0.0.1:5000/health
+
+Test empty DAG
+curl -X POST -H "Content-Type: application/json" -d '{}' http://127.0.0.1:5000/health
+
+Test single node DAG
+curl -X POST -H "Content-Type: application/json" -d '{"Node1": []}' http://127.0.0.1:5000/health
+
+Test disconnected DAG
+curl -X POST -H "Content-Type: application/json" -d '{
+    "Node1": [],
+    "Node2": []
+}' http://127.0.0.1:5000/health
+
+Test invalid JSON
+curl -X POST -H "Content-Type: application/json" -d 'invalid json' http://127.0.0.1:5000/health
+
+Test large DAG
+curl -X POST -H "Content-Type: application/json" -d '{
+    "Node0": ["Node1"], "Node1": ["Node2"], "Node2": ["Node3"], "Node3": ["Node4"], "Node4": ["Node5"], "Node5": ["Node6"], "Node6": ["Node7"], "Node7": ["Node8"], "Node8": ["Node9"], "Node9": ["Node10"], "Node10": ["Node11"], "Node11": ["Node12"], "Node12": ["Node13"], "Node13": ["Node14"], "Node14": ["Node15"], "Node15": ["Node16"], "Node16": ["Node17"], "Node17": ["Node18"], "Node18": ["Node19"], "Node19": ["Node20"], "Node20": ["Node21"], "Node21": ["Node22"], "Node22": ["Node23"], "Node23": ["Node24"], "Node24": ["Node25"], "Node25": ["Node26"], "Node26": ["Node27"], "Node27": ["Node28"], "Node28": ["Node29"], "Node29": ["Node30"], "Node30": ["Node31"], "Node31": ["Node32"], "Node32": ["Node33"], "Node33": ["Node34"], "Node34": ["Node35"], "Node35": ["Node36"], "Node36": ["Node37"], "Node37": ["Node38"], "Node38": ["Node39"], "Node39": ["Node40"], "Node40": ["Node41"], "Node41": ["Node42"], "Node42": ["Node43"], "Node43": ["Node44"], "Node44": ["Node45"], "Node45": ["Node46"], "Node46": ["Node47"], "Node47": ["Node48"], "Node48": ["Node49"], "Node49": ["Node50"], "Node50": ["Node51"], "Node51": ["Node52"], "Node52": ["Node53"], "Node53": ["Node54"], "Node54": ["Node55"], "Node55": ["Node56"], "Node56": ["Node57"], "Node57": ["Node58"], "Node58": ["Node59"], "Node59": ["Node60"], "Node60": ["Node61"], "Node61": ["Node62"], "Node62": ["Node63"], "Node63": ["Node64"], "Node64": ["Node65"], "Node65": ["Node66"], "Node66": ["Node67"], "Node67": ["Node68"], "Node68": ["Node69"], "Node69": ["Node70"], "Node70": ["Node71"], "Node71": ["Node72"], "Node72": ["Node73"], "Node73": ["Node74"], "Node74": ["Node75"], "Node75": ["Node76"], "Node76": ["Node77"], "Node77": ["Node78"], "Node78": ["Node79"], "Node79": ["Node80"], "Node80": ["Node81"], "Node81": ["Node82"], "Node82": ["Node83"], "Node83": ["Node84"], "Node84": ["Node85"], "Node85": ["Node86"], "Node86": ["Node87"], "Node87": ["Node88"], "Node88": ["Node89"], "Node89": ["Node90"], "Node90": ["Node91"], "Node91": ["Node92"], "Node92": ["Node93"], "Node93": ["Node94"], "Node94": ["Node95"], "Node95": ["Node96"], "Node96": ["Node97"], "Node97": ["Node98"], "Node98": ["Node99"], "Node99": ["Node100"], "Node100": []
+    }' http://127.0.0.1:5000/health
+
+Test DAG with self dependency
+curl -X POST -H "Content-Type: application/json" -d '{
+    "A": ["A"]
+}' http://127.0.0.1:5000/health
+
+Test DAG with multiple root nodes
+curl -X POST -H "Content-Type: application/json" -d '{
+    "A": ["C"],
+    "B": ["D"],
+    "C": [],
+    "D": []
+}' http://127.0.0.1:5000/health
+
+Test DAG with cycles handled
+curl -X POST -H "Content-Type: application/json" -d '{
+    "A": ["B"],
+    "B": ["C"],
+    "C": ["A"]
+}' http://127.0.0.1:5000/health
